@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import pandas as pd
+import re
+
 
 # L'URL de la page web que vous souhaitez analyser
 url = "https://www.insee.fr/fr/statistiques/2011101?geo=COM-42330"
@@ -22,6 +24,12 @@ if response.status_code == 200:
     if not os.path.exists(output_directory):
         os.mkdir(output_directory)
 
+    # Create a subdirectory for the URL
+    sanitized_url = re.sub(r'[\\/*?:"<>|]', "", url.replace("https://", ""))
+    url_directory = os.path.join(output_directory, sanitized_url)
+    if not os.path.exists(url_directory):
+        os.mkdir(url_directory)
+
     # Mots-clés à rechercher dans le contenu des tableaux
     mots_cles = ["POP", "FAM", "LOG", "FOR", "EMP", "ACT", "RFD", "REV", "DEN", "TOU"]
 
@@ -34,7 +42,7 @@ if response.status_code == 200:
         for mot_cle in mots_cles:
             if mot_cle in table_text:
                 # Créer un sous-répertoire pour le mot-clé s'il n'existe pas
-                keyword_directory = os.path.join(output_directory, mot_cle)
+                keyword_directory = os.path.join(url_directory, mot_cle)
                 if not os.path.exists(keyword_directory):
                     os.mkdir(keyword_directory)
 
