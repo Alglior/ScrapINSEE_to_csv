@@ -18,6 +18,11 @@ def add_borders_to_sheet(ws):
         for cell in row:
             cell.border = thin_border
 
+# Function to extract the code from the URL
+def extract_code_from_url(url):
+    match = re.search(r'COM-(\d+)', url)
+    return match.group(1) if match else "unknown"
+
 # URL of the web page you want to analyze
 url = "https://www.insee.fr/fr/statistiques/2011101?geo=COM-42330"
 
@@ -37,8 +42,7 @@ if response.status_code == 200:
     if not os.path.exists(url_directory):
         os.mkdir(url_directory)
     
-    com_number = re.search(r'COM-(\d+)', url)
-    com_number = com_number.group(1) if com_number else "unknown"
+    com_number = extract_code_from_url(url)
 
     mots_cles = ["POP", "FAM", "LOG", "FOR", "EMP", "ACT", "RFD", "REV", "DEN", "TOU"]
 
@@ -65,6 +69,9 @@ if response.status_code == 200:
                 
                 if 'Unnamed: 0' in df.columns:
                     df.drop(columns=['Unnamed: 0'], inplace=True)
+                
+                # Add a new 'Code' column with the code extracted from the URL
+                df['Code'] = com_number
                 
                 # Create an Excel workbook for each table
                 wb = Workbook()
