@@ -8,7 +8,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Border, Side
 from openpyxl.utils.dataframe import dataframe_to_rows
 
-# Fonction pour ajouter des bordures à toutes les cellules d'une feuille
+# Function to add borders to all cells in a sheet
 def add_borders_to_sheet(ws):
     thin_border = Border(left=Side(style='thin'), 
                          right=Side(style='thin'), 
@@ -18,10 +18,10 @@ def add_borders_to_sheet(ws):
         for cell in row:
             cell.border = thin_border
 
-# L'URL de la page web que vous souhaitez analyser
+# URL of the web page you want to analyze
 url = "https://www.insee.fr/fr/statistiques/2011101?geo=COM-42330"
 
-# Envoyer une requête GET pour obtenir le contenu de la page
+# Send a GET request to fetch the page content
 response = requests.get(url)
 
 if response.status_code == 200:
@@ -59,24 +59,31 @@ if response.status_code == 200:
                     title_text = f"Tableau_{index + 1}"
                 
                 html_str = str(table)
+                # Replace commas with dots in the HTML content to preserve decimal points
+                html_str = html_str.replace(',', '.')
                 df = pd.read_html(StringIO(html_str))[0]
                 
                 if 'Unnamed: 0' in df.columns:
                     df.drop(columns=['Unnamed: 0'], inplace=True)
                 
-                # Créer un classeur Excel pour chaque tableau
+                # Create an Excel workbook for each table
                 wb = Workbook()
                 ws = wb.active
                 
-                # Ajouter les données du DataFrame à la feuille Excel
+                # Add DataFrame data to the Excel sheet
                 for r_idx, df_row in enumerate(dataframe_to_rows(df, index=False, header=True), 1):
                     for c_idx, value in enumerate(df_row, 1):
-                        ws.cell(row=r_idx, column=c_idx, value=value)
+                        cell = ws.cell(row=r_idx, column=c_idx, value=value)
+                        
+                        # Check if the cell value is numeric and has a dot (.) as decimal separator
+                        if isinstance(value, (int, float)) and '.' in str(value):
+                            # Apply a custom number format to preserve dots as decimal separators
+                            cell.number_format = '0.00'
                 
-                # Ajouter des bordures aux cellules
+                # Add borders to the cells
                 add_borders_to_sheet(ws)
 
-                # Construire le nom du fichier Excel
+                # Construct the Excel file name
                 excel_filename = os.path.join(keyword_directory, f"{com_number}_{title_text}.xlsx")
                 wb.save(excel_filename)
 
