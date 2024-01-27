@@ -86,6 +86,37 @@ def run_script4():
     else:
         messagebox.showerror("Erreur", f"Le fichier {readme_path} n'a pas été trouvé.")
 
+def run_script5():
+    # Create a dialog box to input a folder name
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window
+    new_folder_name = simpledialog.askstring("Input Folder Name", "Enter a new folder name:")
+
+    # Check if the user entered a folder name
+    if new_folder_name is not None:
+        # Construct the new filename based on the entered folder name
+        new_filename = f"../results/{new_folder_name}"
+
+        try:
+            with open('combine.py', 'r') as file:
+                lines = file.readlines()
+
+            for i, line in enumerate(lines):
+                if 'filename =' in line:
+                    lines[i] = f'filename = "{new_filename}"\n'
+
+            with open('combine.py', 'w') as file:
+                file.writelines(lines)
+
+            messagebox.showinfo("Execution", "File combine.py updated!")
+
+        except FileNotFoundError:
+            messagebox.showerror("Error", "File combine.py not found.")
+        
+        try:
+            subprocess.run(["python", "combine.py"])
+        except Exception as e:
+            messagebox.showerror("Error", f"Error executing combine.py: {str(e)}")
 
 # Créer la fenêtre principale
 window = tk.Tk()
@@ -120,6 +151,9 @@ btn_script3.grid(row=1, column=0, padx=5, pady=5)
 
 btn_script4 = tk.Button(frame_buttons, text="Documentation", command=run_script4, width=30, height=2)
 btn_script4.grid(row=1, column=1, padx=5, pady=5)
+
+btn_script5 = tk.Button(frame_buttons, text="Combiner les tables", command=run_script5, width=30, height=2)
+btn_script5.grid(row=2, column=0, padx=5, pady=5)
 # Ajouter et redimensionner l'image dans le coin inférieur droit
 img = PhotoImage(file='univ.png')
 img = img.subsample(2, 2)  # Réduire la taille de l'image de moitié
