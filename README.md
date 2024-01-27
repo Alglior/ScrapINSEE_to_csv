@@ -1,9 +1,13 @@
-UTILISATEURS SOUS WINDOWS - INSTRUCTIONS :
+UTILISATEURS WINDOWS - INSTRUCTIONS :
 
-1. Téléchargez le dossier zip depuis github.com.
-2. Décompressez le dossier.
+Rendez-vous sur la page GitHub du projet en cliquant sur le bouton vert "Code" sur le site github.com.
+![Capture d'écran 2024-01-27 160858](https://github.com/Alglior/ScrapINSEE_to_csv/assets/135703612/19b13a60-a9e7-4026-95dc-f137e4406995)
 
-3. Exécutez le fichier "Install.bat" et attendez la fin de l'installation.
+Sélectionnez "Download ZIP" pour télécharger le dossier compressé (fichier .zip).
+
+Une fois le téléchargement terminé, décompressez le dossier ZIP.
+
+Exécutez le fichier "Install.bat" en double-cliquant dessus, puis attendez la fin de l'installation.
 
 ENSUITE :
 
