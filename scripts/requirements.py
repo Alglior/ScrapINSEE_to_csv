@@ -15,7 +15,7 @@ if __name__ == "__main__":
     env_name = "shovel_insee"  # You can customize this environment name
     create_virtual_environment(env_name)
 
-    packages = ["requests", "beautifulsoup4", "pandas", "openpyxl"]
+    packages = ["requests", "beautifulsoup4", "pandas", "openpyxl","lxml"]
     for package in packages:
         install(package, env_name)
 
