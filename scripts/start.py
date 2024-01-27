@@ -90,7 +90,6 @@ def run_script4():
 # Créer la fenêtre principale
 window = tk.Tk()
 window.title("Shovel - Outil de collecte de données")
-window.iconbitmap('logo.ico')
 # Rendre la fenêtre non redimensionnable
 window.resizable(False, False)
 
