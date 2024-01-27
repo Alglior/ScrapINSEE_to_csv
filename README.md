@@ -21,6 +21,6 @@ ENSUITE :
 
 8. Pour convertir les fichiers Excel en fichiers CSV, cliquez sur le bouton "Convertir Excel en CSV". L'application vous demandera si vous souhaitez effectuer la conversion. Une fois confirmé, un nouveau dossier nommé "tableaux_csv" sera créé avec tous les fichiers convertis au format CSV.
 
-9. Si vous souhaitez trier ou rechercher des fichiers dans le dossier, utilisez le bouton "Trier/Rechercher dossier". Cela ouvrira une fenêtre de dialogue où vous pourrez saisir le nom du fichier que vous recherchez. Ce bouton permet de regrouper toutes les tables du type "POP G1" pour toutes les communes que vous avez téléchargées, en les rangeant ensemble.
+9. Si vous souhaitez trier ou rechercher des fichiers dans le dossier, utilisez le bouton "Trier/Rechercher dossier". Cela ouvrira une fenêtre de dialogue où vous pourrez saisir le nom du fichier que vous recherchez. Ce bouton permet de regrouper toutes les tables du type "POP G1" pour toutes les communes que vous avez téléchargées, en les rangeant ensemble. Une fois confirmé, un nouveau dossier nommé "results" sera créé avec tous les fichiers.
 
 REMARQUE : Vous devez saisir le nom complet du fichier à l'exception du code de la commune. Par exemple, "42022_tableauEMP T6 - Emplois selon le statut profession.." deviendra "_tableauEMP T6 - Emplois selon le statut profession.." 
