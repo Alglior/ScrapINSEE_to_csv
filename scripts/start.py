@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, scrolledtext, Tk, simpledialog
 from tkinter import PhotoImage
 import subprocess
+import os
 
 def run_script1():
     # Lire le contenu de urls.txt
@@ -75,7 +76,16 @@ def run_script3():
             messagebox.showerror("Error", f"Error executing search.py: {str(e)}")
 
 def run_script4():
-    messagebox.showinfo("Exécution", "Le Script 4 a été exécuté")
+    messagebox.showinfo("Exécution", "Le fichier README.md va s'ouvrir dans votre lecteur par défaut.")
+    
+    # Ouvrir le fichier README.md dans le lecteur par défaut
+    readme_path = "../README.md"
+    
+    if os.path.exists(readme_path):
+        os.system(f"start {readme_path}")
+    else:
+        messagebox.showerror("Erreur", f"Le fichier {readme_path} n'a pas été trouvé.")
+
 
 # Créer la fenêtre principale
 window = tk.Tk()
