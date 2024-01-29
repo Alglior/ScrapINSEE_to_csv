@@ -4,35 +4,34 @@ from tkinter import PhotoImage
 import subprocess
 import os
 
-def add_url():
-    new_url = url_entry.get()
-    if new_url:
-        try:
-            with open('urls.txt', 'a') as file:
-                file.write(f"{new_url}\n")
-            update_text_area()
-            url_entry.delete(0, tk.END)
-        except Exception as e:
-            messagebox.showerror("Erreur", f"Une erreur est survenue lors de l'écriture dans le fichier: {e}")
-
-def update_text_area():
-    try:
-        with open('urls.txt', 'r') as file:
-            urls_content = file.read()
-        text_area.delete(1.0, tk.END)
-        text_area.insert(tk.INSERT, f"Contenu de urls.txt:\n{urls_content}\n\nVoulez-vous exécuter table.py?")
-    except FileNotFoundError:
-        messagebox.showerror("Erreur", "Le fichier urls.txt n'a pas été trouvé.")
-
 def run_script1():
     # Créer une nouvelle fenêtre
     window = tk.Tk()
     window.title("Confirmer l'exécution")
 
+    # Function to execute when window is closed
+    def on_window_close():
+        # Clear the contents of urls.txt
+        with open("urls.txt", "w") as file:
+            file.write("")
+
+        print("La fenêtre avec la scrollbox est fermée et urls.txt a été vidé")
+        window.destroy()
+
+    # Function to add URL from the entry to the text area
+    def add_url():
+        # Enable the text area, add URL, then disable it
+        text_area.config(state=tk.NORMAL)
+        url = url_entry.get()
+        text_area.insert(tk.END, url + "\n")
+        text_area.config(state=tk.DISABLED)
+
+    # Bind the close event to the on_window_close function
+    window.protocol("WM_DELETE_WINDOW", on_window_close)
+
     # Ajouter une zone de texte avec une barre de défilement
     global text_area
-    text_area = scrolledtext.ScrolledText(window, wrap=tk.WORD, width=100, height=30)
-    update_text_area()
+    text_area = scrolledtext.ScrolledText(window, wrap=tk.WORD, width=100, height=30, state=tk.DISABLED)
     text_area.pack()
 
     # Ajouter un champ pour entrer une nouvelle URL
@@ -48,7 +47,6 @@ def run_script1():
     proceed_button = tk.Button(window, text="Exécuter", command=lambda: subprocess.run(["python", "table.py"]))
     proceed_button.pack()
     
-
 def run_script2():
     root = Tk()
     root.withdraw()  # Hide the main window
