@@ -1,28 +1,53 @@
 import tkinter as tk
-from tkinter import messagebox, scrolledtext, Tk, simpledialog
+from tkinter import ttk, messagebox, scrolledtext, Tk, simpledialog
 from tkinter import PhotoImage
 import subprocess
 import os
 
-def run_script1():
-    # Lire le contenu de urls.txt
+def add_url():
+    new_url = url_entry.get()
+    if new_url:
+        try:
+            with open('urls.txt', 'a') as file:
+                file.write(f"{new_url}\n")
+            update_text_area()
+            url_entry.delete(0, tk.END)
+        except Exception as e:
+            messagebox.showerror("Erreur", f"Une erreur est survenue lors de l'écriture dans le fichier: {e}")
+
+def update_text_area():
     try:
         with open('urls.txt', 'r') as file:
             urls_content = file.read()
-        # Créer une nouvelle fenêtre
-        window = tk.Tk()
-        window.title("Confirmer l'exécution")
-        # Ajouter une zone de texte avec une barre de défilement
-        text_area = scrolledtext.ScrolledText(window, wrap = tk.WORD, width = 100, height = 30)
+        text_area.delete(1.0, tk.END)
         text_area.insert(tk.INSERT, f"Contenu de urls.txt:\n{urls_content}\n\nVoulez-vous exécuter table.py?")
-        text_area.pack()
-        # Ajouter un bouton pour exécuter table.py
-        proceed_button = tk.Button(window, text = "Exécuter", command = lambda: subprocess.run(["python", "table.py"]))
-        proceed_button.pack()
-        # Exécuter la boucle principale de la fenêtre
-        window.mainloop()
     except FileNotFoundError:
         messagebox.showerror("Erreur", "Le fichier urls.txt n'a pas été trouvé.")
+
+def run_script1():
+    # Créer une nouvelle fenêtre
+    window = tk.Tk()
+    window.title("Confirmer l'exécution")
+
+    # Ajouter une zone de texte avec une barre de défilement
+    global text_area
+    text_area = scrolledtext.ScrolledText(window, wrap=tk.WORD, width=100, height=30)
+    update_text_area()
+    text_area.pack()
+
+    # Ajouter un champ pour entrer une nouvelle URL
+    global url_entry
+    url_entry = tk.Entry(window, width=80)
+    url_entry.pack()
+
+    # Ajouter un bouton pour ajouter une URL
+    add_url_button = tk.Button(window, text="Ajouter URL", command=add_url)
+    add_url_button.pack()
+
+    # Ajouter un bouton pour exécuter table.py
+    proceed_button = tk.Button(window, text="Exécuter", command=lambda: subprocess.run(["python", "table.py"]))
+    proceed_button.pack()
+    
 
 def run_script2():
     root = Tk()
@@ -118,6 +143,66 @@ def run_script5():
         except Exception as e:
             messagebox.showerror("Error", f"Error executing combine.py: {str(e)}")
 
+def run_script6():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauPOP G2.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script7():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauACT G1.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script8():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauACT G2.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script9():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauACT T1.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script10():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauACT T2.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script11():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauACT T3.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script12():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauACT T4.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script13():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauDEN G1.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script14():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauDEN G3.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
+def run_script15():
+    try:
+        subprocess.run(["python", "tables_scripts/_tableauDEN T1.py"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+
 # Créer la fenêtre principale
 window = tk.Tk()
 window.title("Shovel - Outil de collecte de données")
@@ -125,8 +210,8 @@ window.title("Shovel - Outil de collecte de données")
 window.resizable(False, False)
 
 # Dimensions de la fenêtre
-window_width = 600
-window_height = 300
+window_width = 800
+window_height = 450
 
 # Positionner la fenêtre au centre de l'écran
 screen_width = window.winfo_screenwidth()
@@ -135,12 +220,18 @@ x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
 window.geometry(f'{window_width}x{window_height}+{x}+{y}')
 
-# Créer un cadre pour organiser les boutons
-frame_buttons = tk.Frame(window)
+# Create a Notebook widget to have two tabs
+notebook = ttk.Notebook(window)
+notebook.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
+
+# Create the first tab with current buttons
+tab1 = ttk.Frame(notebook)
+notebook.add(tab1, text="Scraping des données INSEE")
+
+frame_buttons = tk.Frame(tab1)
 frame_buttons.pack(pady=10)
 
-# Créer des boutons pour lancer les scripts
-btn_script1 = tk.Button(frame_buttons, text="Chercher commmune dans l'INSEE", command=run_script1, width=30, height=2)
+btn_script1 = tk.Button(frame_buttons, text="Chercher commune dans l'INSEE", command=run_script1, width=30, height=2)
 btn_script1.grid(row=0, column=0, padx=5, pady=5)
 
 btn_script2 = tk.Button(frame_buttons, text="Convertir excel en csv", command=run_script2, width=30, height=2)
@@ -154,6 +245,77 @@ btn_script4.grid(row=1, column=1, padx=5, pady=5)
 
 btn_script5 = tk.Button(frame_buttons, text="Combiner les tables", command=run_script5, width=30, height=2)
 btn_script5.grid(row=2, column=0, padx=5, pady=5)
+
+# Create the second tab with additional buttons
+tab2 = ttk.Frame(notebook)
+notebook.add(tab2, text="Traitement des données")
+
+frame_buttons2 = tk.Frame(tab2)
+frame_buttons2.pack(pady=10)
+
+# Créer un canvas pour contenir les boutons avec un ascenseur vertical
+canvas = tk.Canvas(frame_buttons2)
+canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+# Ajouter un ascenseur vertical
+scrollbar = tk.Scrollbar(frame_buttons2, orient=tk.VERTICAL, command=canvas.yview)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+canvas.configure(yscrollcommand=scrollbar.set)
+
+# Créer un cadre intérieur dans le canvas pour les boutons
+inner_frame = tk.Frame(canvas)
+canvas.create_window((0, 0), window=inner_frame, anchor=tk.NW)
+
+# Ajouter les boutons à l'intérieur du cadre intérieur et les centrer horizontalement
+button_width = 30
+button_height = 2
+
+# Utiliser une liste de noms de scripts et de fonctions pour simplifier le code
+script_data = [
+    ("_tableauPOP G2", run_script6),
+    ("_tableauACT G1", run_script7),
+    ("_tableauACT G2", run_script8),
+    ("_tableauACT T1", run_script9),
+    ("_tableauACT T2", run_script10),
+    ("_tableauACT T3", run_script11),
+    ("_tableauACT T4", run_script12),
+    ("_tableauDEN G1", run_script13),
+    ("_tableauDEN G3", run_script14),
+    ("_tableauDEN T1", run_script15),
+]
+
+row_index = 0
+column_index = 0
+
+for text, command in script_data:
+    if command is not None:
+        btn = tk.Button(inner_frame, text=text, command=command, width=button_width, height=button_height)
+        btn.grid(row=row_index, column=column_index, padx=5, pady=5)
+    else:
+        label = tk.Label(inner_frame, text=text)
+        label.grid(row=row_index, column=column_index, padx=5, pady=5)
+
+    # Avancer dans les colonnes
+    column_index += 1
+
+    # Passer à la deuxième colonne après chaque paire de boutons
+    if column_index == 2:
+        column_index = 0
+        row_index += 1
+
+# Configurer le canvas pour gérer le défilement
+inner_frame.update_idletasks()
+canvas.config(scrollregion=canvas.bbox("all"))
+
+# Configurer le canvas pour réagir à la taille de la fenêtre
+frame_buttons2.bind("<Configure>", lambda event, canvas=canvas: canvas.configure(scrollregion=canvas.bbox("all")))
+
+# Ajuster la largeur du canvas
+new_canvas_width = 650  # Vous pouvez ajuster la largeur en fonction de vos besoins
+canvas.config(width=new_canvas_width)
+
+
+
 # Ajouter et redimensionner l'image dans le coin inférieur droit
 img = PhotoImage(file='univ.png')
 img = img.subsample(2, 2)  # Réduire la taille de l'image de moitié

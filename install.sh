@@ -19,6 +19,9 @@ sudo make install
 # Revenir au répertoire précédent
 cd ..
 
+# Supprimer l'archive téléchargée
+rm Python-3.10.0.tgz
+
 echo "Python 3.10 installé avec succès."
 
 # Exécuter requirements.py

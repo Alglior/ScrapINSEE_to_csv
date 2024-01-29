@@ -26,6 +26,9 @@ for root, dirs, files in os.walk(excel_directory):
             
             # Lire le fichier Excel et le convertir en CSV
             df = pd.read_excel(excel_file_path)
+            df.columns = ['_'.join(map(str, col)).strip().replace('U_n_n_a_m_e_d_:_ _0', '').replace(' ', '_') for col in df.columns.values]
+
             df.to_csv(csv_file_path, index=False, encoding='utf-8-sig')
+
 
 print("Les fichiers Excel ont été convertis en fichiers CSV tout en conservant la structure des dossiers.")
