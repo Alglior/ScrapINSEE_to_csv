@@ -1,33 +1,46 @@
 #!/bin/bash
 
-# Afficher un message
-echo "Téléchargement de l'installateur Python 3.10..."
-# Télécharger l'installateur Python
-wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz
+# Installation des dépendances système nécessaires
+echo "Installation des dépendances système nécessaires..."
+sudo apt-get update
+sudo apt-get install -y \
+    python3-tk \
+    python3-dev \
+    tk-dev \
+    python3-venv \
+    build-essential \
+    zlib1g-dev \
+    libncurses5-dev \
+    libgdbm-dev \
+    libnss3-dev \
+    libssl-dev \
+    libreadline-dev \
+    libffi-dev \
+    libsqlite3-dev \
+    wget \
+    libbz2-dev
 
-# Afficher un message
-echo "Installation de Python 3.10..."
-# Extraire l'archive
+# Télécharger et installer Python 3.10
+echo "Téléchargement de l'installateur Python 3.10..."
+wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz
 tar -xzf Python-3.10.0.tgz
 cd Python-3.10.0
 
-# Configurer et installer Python
-./configure
-make
-sudo make install
+# Configurer avec tkinter activé
+./configure --enable-optimizations --with-tcltk-includes="-I/usr/include" --with-tcltk-libs="-L/usr/lib"
+make -j $(nproc)
+sudo make altinstall
 
-# Revenir au répertoire précédent
+# Revenir au répertoire précédent et nettoyer
 cd ..
-
-# Supprimer l'archive téléchargée
 rm Python-3.10.0.tgz
 rm -rf Python-3.10.0
 
 echo "Python 3.10 installé avec succès."
 
-# Aller dans le dossier scripts et exécuter requirements.py
+# Configuration de l'environnement
 echo "Configuration de l'environnement..."
 cd scripts
-python3 requirements.py
+python3.10 requirements.py
 
 echo "Installation terminée avec succès!"
