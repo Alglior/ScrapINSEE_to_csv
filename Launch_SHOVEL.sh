@@ -5,7 +5,7 @@ echo "Activation de l'environnement virtuel 'shovel_insee'..."
 
 # Activer l'environnement virtuel
 # Assurez-vous que le chemin vers l'environnement virtuel est correct
-source scripts/shovel_insee/bin/activate  # Utilisez activate pour bash
+source shovel_insee/bin/activate  # Utilisez activate pour bash
 
 echo "Environnement virtuel activé."
 
