@@ -21,15 +21,13 @@ cd ..
 
 # Supprimer l'archive téléchargée
 rm Python-3.10.0.tgz
+rm -rf Python-3.10.0
 
 echo "Python 3.10 installé avec succès."
 
-# Exécuter requirements.py
-echo "Exécution de requirements.py..."
-# Changer de répertoire pour le dossier scripts
+# Aller dans le dossier scripts et exécuter requirements.py
+echo "Configuration de l'environnement..."
 cd scripts
-python requirements.py
-# Revenir au répertoire original
-cd ..
+python3 requirements.py
 
-echo "requirements.py a terminé son exécution."
+echo "Installation terminée avec succès!"

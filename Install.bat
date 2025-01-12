@@ -1,18 +1,25 @@
 @echo off
-echo Downloading Python 3.10 Installer...
+echo Installation de Python 3.10...
+
+REM Télécharger Python 3.10
 curl -o python-3.10.0.exe https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe
 
-echo Installing Python 3.10...
-python-3.10.0.exe /quiet InstallAllUsers=1 PrependPath=1
+REM Installer Python silencieusement avec les options nécessaires
+python-3.10.0.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0
 
-echo Python 3.10 installed successfully.
+REM Attendre que l'installation soit terminée
+timeout /t 10
 
-echo Running requirements.py...
-REM Change directory to the scripts folder
+REM Supprimer l'installateur
+del python-3.10.0.exe
+
+echo Python 3.10 installé avec succès.
+
+REM Aller dans le dossier scripts et exécuter requirements.py
+echo Configuration de l'environnement...
 cd scripts
 python requirements.py
-REM Change back to the original directory
 cd ..
 
-echo requirements.py has finished running.
+echo Installation terminée avec succès!
 pause
