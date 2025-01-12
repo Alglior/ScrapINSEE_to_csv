@@ -6,7 +6,7 @@
    - Cliquez sur le bouton vert "Code" sur GitHub
    - Sélectionnez "Download ZIP"
    - Décompressez le dossier ZIP
-   - ou utiliser git clone https://github.com/Alglior/ScrapINSEE_to_csv.git dans l'emplacement du bon dossier
+   - ou utiliser '''git clone https://github.com/Alglior/ScrapINSEE_to_csv.git''' dans l'emplacement du bon dossier
 
 2. Installation :
    - Double-cliquez sur "Install.bat pour windows / install.sh pour linux(debian base)"
