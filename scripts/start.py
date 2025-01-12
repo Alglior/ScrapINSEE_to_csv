@@ -3,6 +3,11 @@ from tkinter import ttk, messagebox, scrolledtext, Tk, simpledialog
 from tkinter import PhotoImage
 import subprocess
 import os
+import sys
+
+# Obtenir les chemins
+PYTHON_PATH = sys.executable
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def add_url():
     new_url = url_entry.get()
@@ -45,7 +50,9 @@ def run_script1():
     add_url_button.pack()
 
     # Ajouter un bouton pour exécuter table.py
-    proceed_button = tk.Button(window, text="Exécuter", command=lambda: subprocess.run(["python", "table.py"]))
+    proceed_button = tk.Button(window, text="Exécuter", 
+                             command=lambda: subprocess.run([PYTHON_PATH, 
+                                    os.path.join(SCRIPT_DIR, "table.py")]))
     proceed_button.pack()
     
 
@@ -54,7 +61,7 @@ def run_script2():
     root.withdraw()  # Hide the main window
     MsgBox = messagebox.askquestion ('Execute Script','Vous allez à présent convertir les tableaux Excel en CSV. Êtes-vous sûr ?',icon = 'warning')
     if MsgBox == 'yes':
-        subprocess.call(["python", "excel_to_csv.py"])
+        subprocess.call([PYTHON_PATH, os.path.join(SCRIPT_DIR, "excel_to_csv.py")])
         messagebox.showinfo("Exécution", "Dossier csv créé avec succès")
     root.destroy()  # Destroy the main window
 
@@ -96,7 +103,7 @@ def run_script3():
 
         # Execute the modified search.py script
         try:
-            subprocess.run(["python", "search.py"])
+            subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "search.py")])
         except Exception as e:
             messagebox.showerror("Error", f"Error executing search.py: {str(e)}")
 
@@ -139,69 +146,77 @@ def run_script5():
             messagebox.showerror("Error", "File combine.py not found.")
         
         try:
-            subprocess.run(["python", "combine.py"])
+            subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "combine.py")])
         except Exception as e:
             messagebox.showerror("Error", f"Error executing combine.py: {str(e)}")
 
 def run_script6():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauPOP G2.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauPOP G2.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script7():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauACT G1.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauACT G1.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script8():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauACT G2.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauACT G2.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script9():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauACT T1.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauACT T1.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script10():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauACT T2.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauACT T2.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script11():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauACT T3.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauACT T3.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script12():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauACT T4.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauACT T4.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script13():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauDEN G1.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauDEN G1.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script14():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauDEN G3.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauDEN G3.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
 
 def run_script15():
     try:
-        subprocess.run(["python", "tables_scripts/_tableauDEN T1.py"], check=True)
+        subprocess.run([PYTHON_PATH, os.path.join(SCRIPT_DIR, "tables_scripts/_tableauDEN T1.py")], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
+
+# Ajouter cette fonction après les autres définitions de fonctions
+def run_create_urls():
+    try:
+        script_path = os.path.join(SCRIPT_DIR, "create_urls.py")
+        subprocess.run([PYTHON_PATH, script_path])
+    except Exception as e:
+        messagebox.showerror("Error", f"Error executing create_urls.py: {str(e)}")
 
 # Créer la fenêtre principale
 window = tk.Tk()
@@ -245,6 +260,10 @@ btn_script4.grid(row=1, column=1, padx=5, pady=5)
 
 btn_script5 = tk.Button(frame_buttons, text="Combiner les tables", command=run_script5, width=30, height=2)
 btn_script5.grid(row=2, column=0, padx=5, pady=5)
+
+# Dans la section où les boutons sont créés (après btn_script5), ajouter:
+btn_create_urls = tk.Button(frame_buttons, text="Créer URLs INSEE", command=run_create_urls, width=30, height=2)
+btn_create_urls.grid(row=2, column=1, padx=5, pady=5)
 
 # Create the second tab with additional buttons
 tab2 = ttk.Frame(notebook)
@@ -314,13 +333,20 @@ frame_buttons2.bind("<Configure>", lambda event, canvas=canvas: canvas.configure
 new_canvas_width = 650  # Vous pouvez ajuster la largeur en fonction de vos besoins
 canvas.config(width=new_canvas_width)
 
-
-
-# Ajouter et redimensionner l'image dans le coin inférieur droit
-img = PhotoImage(file='univ.png')
-img = img.subsample(2, 2)  # Réduire la taille de l'image de moitié
-label_image = tk.Label(window, image=img)
-label_image.place(relx=1.0, rely=1.0, anchor='se')
+# Replace the image loading code near the end of the file with:
+try:
+    # Get the directory where the script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Create path to the image file
+    image_path = os.path.join(script_dir, 'univ.png')
+    
+    img = PhotoImage(file=image_path)
+    img = img.subsample(2, 2)  # Réduire la taille de l'image de moitié
+    label_image = tk.Label(window, image=img)
+    label_image.place(relx=1.0, rely=1.0, anchor='se')
+except Exception as e:
+    print(f"Warning: Could not load image: {e}")
+    # Continue without the image
 
 # Démarrer l'interface utilisateur
 window.mainloop()
